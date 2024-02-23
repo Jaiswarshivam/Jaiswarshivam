@@ -24,7 +24,6 @@ public class LogicLessGUI{
             gateIdTrack=gateid;
         }
     }
-
     static int count=0,gateCount=0;
     static JFrame frame = new JFrame();
     static JPanel buttoPanel = new JPanel(new GridLayout(1,8,5,0));
@@ -38,7 +37,6 @@ public class LogicLessGUI{
     static gateGUI []test = new gateGUI[50];
     static Boolean simStatus = false;
     static String truthTableString=""; 
-    static JButton resetButton;
 
 static class gateGUI extends JPanel implements  MouseInputListener{
     JLabel gateLogo;
@@ -230,10 +228,9 @@ static class gateGUI extends JPanel implements  MouseInputListener{
 
 static class wireDrawer extends JPanel implements MouseInputListener{
     Line2D []li = new Line2D[50];
-    int lineCount = 0;
     // Vector<Line2D> liVect = new Vector<Line2D>();
     int x=0,y=0,xn=0,yn=0;
-            public wireDrawer(){
+            wireDrawer(){
                 for(int xyz=0;xyz<50;xyz++){
                     li[xyz] = new Line2D.Float(0,0,0,0);
                     setOpaque(false);
@@ -242,13 +239,6 @@ static class wireDrawer extends JPanel implements MouseInputListener{
                 addMouseListener(this);
                 addMouseMotionListener(this);
                 // setBackground(Color.blue);
-            }
-            public void clearLines() {
-                for (int i = 0; i < lineCount; i++) {
-                    li[i].setLine(0, 0, 0, 0);
-                }
-                lineCount = 0;
-                repaint();
             }
             public void mouseDragged(MouseEvent m) {
             }  
@@ -380,7 +370,6 @@ public static void generateTruthTable(gate gatesArray[]){
 
     public static void main(String[] args) {
         frame.setLayout(null);
-        // wireDrawer ld = new wireDrawer();
         ld.setBounds(0,50,1366,768);
         // ld.setOpaque(true);  
         // ld.setBackground(Color.red);
@@ -395,18 +384,13 @@ public static void generateTruthTable(gate gatesArray[]){
         JButton outpuButton = new JButton("Output");
         JButton TruthTable = new JButton("TTable");
         JFrame truthTablFrame = new JFrame("Truth Table");
-        resetButton = new JButton("Reset");
-        resetButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                resetGUI();
-            }
-        });
         JTextPane table = new JTextPane();
         for(int a=0;a<50;a++){
             test[a] = new gateGUI();
             test[a].setVisible(false);
             frame.add(test[a]);
         }
+        
         andGateButton.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent e){  
                     test[gateCount].setVisible(true);
@@ -503,7 +487,7 @@ public static void generateTruthTable(gate gatesArray[]){
                     simulateButton.setText("Simulate");
                 }
             }  
-            });
+            });   
         TruthTable.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent e){
                 generateTruthTable(gt);
@@ -515,7 +499,7 @@ public static void generateTruthTable(gate gatesArray[]){
                 truthTablFrame.setVisible(true);
                 truthTablFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
             }  
-            });
+            });    
         buttoPanel.add(andGateButton);
         buttoPanel.add(orGateButton);
         buttoPanel.add(notGateButton);
@@ -526,25 +510,12 @@ public static void generateTruthTable(gate gatesArray[]){
         buttoPanel.add(outpuButton);
         buttoPanel.add(simulateButton);
         buttoPanel.add(TruthTable);
-        buttoPanel.add(resetButton);
-        buttoPanel.setSize(1366,40);
+        buttoPanel.setSize(1366, 40);
         frame.add(buttoPanel);
         frame.add(ld);
         frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-        frame.setLayout(null);
-    }
-    public static void resetGUI() {
-        // Hide all gateGUI instances
-        Component[] components = frame.getContentPane().getComponents();
-        for (Component component : components) {
-            if (component instanceof gateGUI) {
-                component.setVisible(false);
-            }
-        }
-
-        // Clear any drawn wires
-        ld.clearLines();
-    }
+        frame.setLayout(null);  
+    }   
 }
